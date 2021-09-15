@@ -1,6 +1,70 @@
 var Skructure = {
     apiURLPath: '/[Path To]/_api'
     , CodeName: 'Skructure'
+    , ControlElements: { dvDatabase: '#dvDatabase', dvModels: '#dvModels' }
+    , PrintDB: function PrintDB(dvDatabase, Lists) {
+
+
+        var PrintList = function PrintList(ListIndex, tmpList) {
+            var tmpText = '';
+            var EntityTypeName = tmpList.EntityTypeName;
+            var uri = tmpList.Items.__deferred.uri;
+            var Top = '$top=10';
+            var url = uri + '?' + Top;
+            var gotData = function gotData(xhrData) {
+                var Records = '';
+                var PrintRecords = function (xhrData) {
+                    var PrintRecord = function (RecordIndex, tmpRecord) {
+
+                        Records = Records + '{';
+                        for (let tmpField in tmpRecord) {
+                            var FieldValue = tmpRecord[tmpField];
+                            var DataType = typeof FieldValue;
+
+                            Records = Records + '<Div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                            Records = Records + '"' + tmpField + '"';
+                            Records = Records + ':';
+
+                            switch (DataType) {
+                                case 'object':
+                                    Records = Records + '"' + FieldValue + '"';
+                                    break;
+                                case 'number':
+                                    Records = Records + FieldValue;
+                                    break;
+                                case 'string':
+                                    Records = Records + '"' + FieldValue + '"';
+                                    break;
+                                default:
+                                    Records = Records + '"' + DataType + '"';
+                                    break;
+                            }
+
+                            Records = Records + '</Div>';
+                        }
+                        Records = Records + '}';
+
+                        if (RecordIndex < xhrData.length - 1) {
+                            Records = Records + ', ';
+                        }
+
+                    };
+                    $(xhrData).each(PrintRecord);
+                };
+
+                PrintRecords(xhrData);
+
+                tmpText = tmpText + '<Div ListIndex="' + ListIndex + '"><B>"' + EntityTypeName + '"</B>:[' + Records + ']</Div>';
+                $(dvDatabase).append(tmpText);
+            };
+
+            Virgil.ajax(EntityTypeName, url, gotData);
+        };
+
+        $(Lists).each(PrintList);
+
+
+    }
     , PrintModels: function PrintModels(Lists) {
         $('#dvModels').html('Loading...');
         var PrintModel = function PrintModel(ListIndex, tmpList) {
@@ -27,92 +91,7 @@ var Skructure = {
                         case 'Boolean':
                             ReturnValue = 'boolean';
                             break;
-
-                        case 'Image':
-                            ReturnValue = 'string';
-                            break;
-                        case 'Likes':
-                            ReturnValue = 'string';
-                            break;
-                        case 'TaxonomyFieldTypeMulti':
-                            ReturnValue = 'string';
-                            break;
-                        case 'AverageRating':
-                            ReturnValue = 'string';
-                            break;
-                        case 'RatingCount':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'Image':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'TargetTo':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'HTML':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'SummaryLinks':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'RelatedItems':
-                            ReturnValue = 'string';
-                            break;
-
-                        case 'RelatedItems':
-                            ReturnValue = 'string';
-                            break;
-                        case 'WorkflowEventType':
-                            ReturnValue = 'string';
-                            break;
-                        case 'PublishingScheduleStartDateFieldType':
-                            ReturnValue = 'string';
-                            break;
-                        case 'PublishingScheduleEndDateFieldType':
-                            ReturnValue = 'string';
-                            break;
-                        case 'PublishingScheduleStartDateFieldType':
-                            ReturnValue = 'string';
-                            break;
-                        case 'OutcomeChoice':
-                            ReturnValue = 'string';
-                            break;
-                        case 'ExemptField':
-                            ReturnValue = 'string';
-                            break;
-                        case 'AllDayEvent':
-                            ReturnValue = 'string';
-                            break;
-                        case 'Recurrence':
-                            ReturnValue = 'string';
-                            break;
-                        case 'LookupMulti':
-                            ReturnValue = 'string';
-                            break;
-                        case 'CrossProjectLink':
-                            ReturnValue = 'string';
-                            break;
-                        case 'UserMulti':
-                            ReturnValue = 'string';
-                            break;
-                        case 'Facilities':
-                            ReturnValue = 'string';
-                            break;
-                        case 'FreeBusy':
-                            ReturnValue = 'string';
-                            break;
-                        case 'Overbook':
-                            ReturnValue = 'string';
-                            break;
                         case 'File':
-                            ReturnValue = 'string';
-                            break;
-                        case 'WorkflowStatus':
                             ReturnValue = 'string';
                             break;
                         case 'Text':
@@ -195,6 +174,7 @@ var Skructure = {
                                 var gotData = function gotFields(xhrFields) {
                                     Lists[ListIndex].Fields = xhrFields;
                                     if (ListIndex === Lists.length - 1) {
+                                        Skructure.PrintDB(Skructure.ControlElements.dvDatabase, Lists);
                                         Skructure.PrintModels(Lists);
                                     }
                                 };
@@ -202,14 +182,15 @@ var Skructure = {
                             }
                         }
                     }
+
                 }
             };
 
             $(Lists).each(getFields);
         }
+
     }
     , DocumentReady: function () {
-        $('#dvModels').html('Document Ready...');
         Virgil.DocumentReady(Skructure);
     }
 };
