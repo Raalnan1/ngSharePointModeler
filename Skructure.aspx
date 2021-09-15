@@ -16,8 +16,12 @@
 
 <body>
     <h1>Skructure</h1>
+        
     <h2>Models</h2>
     <div id="dvModels"></div>
+    
+    <h2>Database</h2>
+    <div id="dvDatabase"></div>
 </body>
 
 </html>
