@@ -17,10 +17,11 @@ var Skructure = {
                     var PrintRecord = function (RecordIndex, tmpRecord) {
 
                         Records = Records + '{';
+                        var KeyCounter = 0;
                         for (let tmpField in tmpRecord) {
                             var FieldValue = tmpRecord[tmpField];
                             var DataType = typeof FieldValue;
-
+                            KeyCounter++;
                             Records = Records + '<Div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                             Records = Records + '"' + tmpField + '"';
                             Records = Records + ':';
@@ -40,11 +41,15 @@ var Skructure = {
                                     break;
                             }
 
+                            if (KeyCounter < Object.keys(tmpRecord).length) {
+                                Records = Records + ', ';
+                            }
+
                             Records = Records + '</Div>';
                         }
                         Records = Records + '}';
 
-                        if (RecordIndex < xhrData.length - 1) {
+                        if (RecordIndex < xhrData.length) {
                             Records = Records + ', ';
                         }
 
@@ -54,7 +59,7 @@ var Skructure = {
 
                 PrintRecords(xhrData);
 
-                tmpText = tmpText + '<Div ListIndex="' + ListIndex + '"><B>"' + EntityTypeName + '"</B>:[' + Records + ']</Div>';
+                tmpText = tmpText + ',<Div ListIndex="' + ListIndex + '"><B>"' + EntityTypeName + '"</B>:[' + Records + ']</Div>';
                 $(dvDatabase).append(tmpText);
             };
 
