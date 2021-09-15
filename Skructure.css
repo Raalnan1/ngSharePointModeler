@@ -1,0 +1,79 @@
+        div.Computed {
+            color: blue;
+        }
+
+        div.User {
+            color: coral;
+        }
+
+        div.Lookup {
+            color: chocolate;
+        }
+
+        div.Counter {
+            color: blueviolet;
+        }
+
+        div.Text {
+            color: burlywood;
+        }
+
+        div.Boolean {
+            color: crimson;
+        }
+
+        div.DateTime {
+            color: cornflowerblue;
+        }
+
+        div.ContentTypeId {
+            color: cadetblue;
+        }
+
+        div.ModStat {
+            color: red;
+        }
+
+        div.Note {
+            color: mediumorchid;
+        }
+
+        div.File {
+            color: darkslateblue;
+        }
+
+        div.Integer {
+            color: indigo;
+        }
+
+        div.Number {
+            color: navajowhite;
+        }
+
+        div.Guid {
+            color: dimgrey;
+        }
+
+        div.Choice {
+            color: crimson;
+        }
+
+        div.MultiChoice {
+            color: limegreen;
+        }
+
+        div.Calculated {
+            color: firebrick;
+        }
+
+        div.Attachments {
+            color: darkgoldenrod;
+        }
+
+        div.URL {
+            color: turquoise;
+        }
+
+        div.AccessRequestsPermissionLevel {
+            color: darkgray;
+        }
